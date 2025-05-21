@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile — LingoFlow</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+   <div class="empty"></div>
+    <nav>
+        <button class="back" onclick="location.href='index.html'">Back to main</button>
+        <button class="pract" onclick="location.href='practice.html'">Go to practice</button>
+        <!-- <button class="logout" onclick="logout()">Logout доделать кнопку!!!!!!!!!!!!</button> -->
+      </nav>
+  <div class="form-container">
+    <h2>Welcome<span id="username"></span>!</h2>
+    <p>Your progress</p>
+    <ul id="progress-list">
+      <li>A1 — Words:<span data-level="1">✅</span> </li> 
+      <li >A2 — Words:<span data-level="2">❌</span> </li> 
+      <li >B1 — Words:<span data-level="3">❌</span> </li> 
+      <li >B2 — Words:<span data-level="4">❌</span> </li> 
+      <li >C1 — Words:<span data-level="5">❌</span> </li> 
+      <li >C2 — Words:<span data-level="6">❌</span> </li> 
+      <li >A1 — Sentences:<span data-level="7">❌</span></li>
+      <li >A2 — Sentences:<span data-level="8">❌</span> </li>
+      <li >B1 — Sentences:<span data-level="9">❌</span> </li>
+       <li >B2 — Sentences:<span data-level="10">❌</span> </li>
+      <li >C1 — Sentences:<span data-level="11">❌</span> </li>
+       <li >C2 — Sentences:<span data-level="12">❌</span> </li>
+    </ul>
+  </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const levels = document.querySelectorAll('[data-level]');
+    
+    levels.forEach(span => {
+      const level = span.getAttribute('data-level');
+      const status = localStorage.getItem(`level_${level}`);
+      
+      span.textContent = status === 'correct' ? '✅' : 
+                        status === 'wrong' ? '❌' : 
+                        ' ';
+    });
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sentences practice — LingoFlow</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <div class="form-container4">
+    <p id="target-sentence"></p>
+    <p id="user-response"></p>
+    <p id="result-msg"></p>
+    <h2>Select Your Level</h2>
+    <div class="levels">
+      <button onclick="startLevel('A1')" id="level-A1" data-complete="false">A1</button>
+      <button onclick="startLevel('A2')" id="level-A2" data-complete="false">A2</button>
+      <button onclick="startLevel('B1')" id="level-B1" data-complete="false">B1</button>
+      <button onclick="startLevel('B2')" id="level-B2" data-complete="false">B2</button>
+      <button onclick="startLevel('C1')" id="level-C1" data-complete="false">C1</button>
+      <button onclick="startLevel('C2')" id="level-C2" data-complete="false">C2</button>
+
+    </div>
+  </div>
+ <button class="backtprof" onclick="location.href='../profile.html'">Back to profile</button>
+    <button class="changemode" onclick="location.href='../practice.html'">Change mode</button>
+  
+  <script>
+    function startLevel(level) {
+      alert("Starting practice for level: " + level);
+      // Позже — переход к генерации слов или предложений
+    }
+  </script>
+  <script src="../js/speech.js"></script>
+  <script src="../js/sentences.js"></script>
+</body>
+</html>

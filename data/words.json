@@ -1,0 +1,7 @@
+{
+    "A1": ["cat", "dog", "house", "book", "apple"],
+    "A2": ["travel", "holiday", "market", "weather", "movie"],
+    "B1": ["education", "solution", "imagine", "prepare", "machine"],
+    "B2": ["responsibility", "opportunity", "investment", "strategy", "potential"],
+    "C1": ["sustainability", "collaboration", "distribution", "interpretation", "infrastructure"]
+  }
