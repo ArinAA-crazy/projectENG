@@ -82,14 +82,14 @@ nav button.login {
   .intro button:hover {
     background: #6aa871;
   }
- main h3 {
+  main h3 {
     text-align: left;
     font-size: 16px;
-    margin-top: 6%;
-    margin-left: 5%
+    margin-top: 4%;
   } 
   p {
-    margin-top: 4%;
+    margin-top: 3%;
+    margin-left: 4%;
   }
   footer {
     margin-top: 100%;
