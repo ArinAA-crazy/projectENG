@@ -7,41 +7,63 @@ fetch("../data/sentences.json")
     sentenceData = data;
   });
 
-// Функция запуска уровня
 function startLevel(level) {
   const sentences = sentenceData[level];
   if (!sentences) {
-    alert("No sentences found for level " + level);
+    showStatus("⚠️ Предложения не найдены " + level);
     return;
   }
 
   const randomSentence = sentences[Math.floor(Math.random() * sentences.length)];
+
+  // УСТАНАВЛИВАЕМ предложение ОТДЕЛЬНО
+  document.getElementById("target-sentence").textContent = randomSentence;
+
   speakAndListen(randomSentence);
 }
 
-// Функция озвучки и распознавания речи
 function speakAndListen(targetSentence) {
   const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
   recognition.lang = 'en-US';
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
 
-  alert("Произнесите это предложение:\n" + targetSentence);
+  // СБРАСЫВАЕМ старые сообщения перед началом новой попытки
+  clearResult();
+
+  showStatus("Идёт запись...");
 
   recognition.start();
 
   recognition.onresult = function (event) {
     const result = event.results[0][0].transcript.toLowerCase().trim();
     const expected = targetSentence.toLowerCase().trim();
-    
+
+   
     if (result === expected) {
-      alert("Правильно! ✔️");
+      showStatus("Правильно!✅", true);
     } else {
-      alert(`Неправильно ❌\nВы сказали:\n${result}`);
+      showStatus(`Неправильно.❌ Вы сказали: "${result}"`, false);
     }
   };
 
   recognition.onerror = function (event) {
-    alert("Error: " + event.error);
+    showStatus("⚠️ Ошибка: " + event.error);
   };
+}
+
+function showStatus(message, isCorrect = null) {
+  const statusEl = document.getElementById("status-msg");
+  statusEl.textContent = message;
+  statusEl.className = "";
+
+  if (isCorrect === true) statusEl.classList.add("correct");
+  if (isCorrect === false) statusEl.classList.add("incorrect");
+}
+
+function clearResult() {
+  // Сбрасываем все предыдущие результаты
+  document.getElementById("status-msg").textContent = "";
+  document.getElementById("status-msg").className = "";
+  document.getElementById("user-response").textContent = "";
 }
