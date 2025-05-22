@@ -1,64 +1,69 @@
-let wordsData = {};
-let currentLevel = null; // Добавим переменную для отслеживания уровня
+let wordData = {};
 
+// Загружаем предложения по уровням
 fetch("../data/words.json")
-  .then(res => {
-    if (!res.ok) throw new Error('Ошибка загрузки данных');
-    return res.json();
-  })
+  .then(res => res.json())
   .then(data => {
-    wordsData = data;
-    console.log('Данные загружены:', wordsData); // Для отладки
-  })
-  .catch(err => {
-    console.error('Ошибка:', err);
-    alert('Не удалось загрузить словарь');
+    wordData = data;
   });
 
 function startLevel(level) {
-  currentLevel = level; // Сохраняем текущий уровень
-  const wordList = wordsData[level];
-  
-  if (!wordList || wordList.length === 0) {
-    alert("No words found for level " + level);
+  const word = wordData[level];
+  if (!word) {
+    showStatus("⚠️ Слова не найдены " + level);
     return;
   }
 
-  const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
-  speakAndListen(randomWord);
+  const randomword = word[Math.floor(Math.random() * word.length)];
+
+  // УСТАНАВЛИВАЕМ предложение ОТДЕЛЬНО
+  document.getElementById("target-word").textContent = randomword;
+
+  speakAndListen(randomword);
 }
 
-function speakAndListen(targetWord) {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  
-  if (!SpeechRecognition) {
-    alert("Браузер не поддерживает распознавание речи");
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
+function speakAndListen(targetword) {
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
   recognition.lang = 'en-US';
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
 
-  alert("Произнесите слово: " + targetWord);
+  // СБРАСЫВАЕМ старые сообщения перед началом новой попытки
+  clearResult();
+
+  showStatus("Идёт запись...");
 
   recognition.start();
 
   recognition.onresult = function (event) {
     const result = event.results[0][0].transcript.toLowerCase().trim();
-    const isCorrect = result === targetWord.toLowerCase();
-    
-    // Сохраняем результат для текущего уровня
-    if (currentLevel !== null) {
-      localStorage.setItem(`level_${currentLevel}`, isCorrect ? 'correct' : 'wrong');
-    }
+    const expected = targetword.toLowerCase().trim();
 
-    alert(isCorrect ? "Правильно! ✔️" : `Неправильно ❌\nВаш ответ: ${result}`);
+   
+    if (result === expected) {
+      showStatus("Правильно!✅", true);
+    } else {
+      showStatus(`Неправильно.❌ Вы сказали: "${result}"`, false);
+    }
   };
 
   recognition.onerror = function (event) {
-    alert("Ошибка распознавания: " + event.error);
-    localStorage.setItem(`level_${currentLevel}`, 'error');
+    showStatus("⚠️ Ошибка: " + event.error);
   };
+}
+
+function showStatus(message, isCorrect = null) {
+  const statusEl = document.getElementById("status-msg");
+  statusEl.textContent = message;
+  statusEl.className = "";
+
+  if (isCorrect === true) statusEl.classList.add("correct");
+  if (isCorrect === false) statusEl.classList.add("incorrect");
+}
+
+function clearResult() {
+  // Сбрасываем все предыдущие результаты
+  document.getElementById("status-msg").textContent = "";
+  document.getElementById("status-msg").className = "";
+  document.getElementById("user-response").textContent = "";
 }
