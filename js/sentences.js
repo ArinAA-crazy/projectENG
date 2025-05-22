@@ -26,7 +26,7 @@ function speakAndListen(targetSentence) {
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
 
-  alert("Say this sentence:\n" + targetSentence);
+  alert("Произнесите это предложение:\n" + targetSentence);
 
   recognition.start();
 
@@ -35,9 +35,9 @@ function speakAndListen(targetSentence) {
     const expected = targetSentence.toLowerCase().trim();
     
     if (result === expected) {
-      alert("Correct!");
+      alert("Правильно! ✔️");
     } else {
-      alert(`You said:\n"${result}"\nExpected:\n"${expected}"`);
+      alert(`Неправильно ❌\nВы сказали:\n${result}`);
     }
   };
 
