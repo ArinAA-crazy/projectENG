@@ -300,3 +300,16 @@ nav button.login {
     margin-top: 10px;
     font-size: 1rem;
   }
+#status-msg {
+  text-align: center;
+  font-size: 100%px;
+  color: white;
+}
+
+#status-msg.correct {
+  color: green;
+}
+
+#status-msg.incorrect {
+  color: red;
+}
